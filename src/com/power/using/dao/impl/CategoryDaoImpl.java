@@ -21,7 +21,8 @@ public class CategoryDaoImpl implements CategoryDao {
 			qr.update("insert into categorys (id,name,description) values(?,?,?)",c.getId(),c.getName(),c.getDescription());
 			
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			e.printStackTrace();
+			//throw new RuntimeException(e);
 		}
 	
 	}
@@ -32,7 +33,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		try {
 			return qr.query("select * from categorys", new BeanListHandler<Category>(Category.class));
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 		
 		

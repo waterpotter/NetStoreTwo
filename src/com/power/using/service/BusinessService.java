@@ -3,6 +3,8 @@ package com.power.using.service;
 
 import java.util.List;
 
+import com.power.using.commons.Page;
+import com.power.using.domain.Book;
 import com.power.using.domain.Category;
 
 public interface BusinessService {
@@ -27,14 +29,26 @@ public interface BusinessService {
 	 */
 	Category findCategoryById(String CategoryId);
 	
+	/**
+	 * 添加一本书
+	 * 如果book关联的Category为null,要抛出参数错误异常
+	 * @param book
+	 */
+	void addBook(Book book);
 	
+	/**
+	 * 根据bookid查询一本书
+	 * @param bookId
+	 * @return
+	 */
+	Book findBookById(String bookId);
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 根据用户要查看的页码,返回封装了所有与分页有关的Page对象数据
+	 * @param num
+	 * @return
+	 */
+	Page findBookPageRecords(String num);
 	
 	
 	

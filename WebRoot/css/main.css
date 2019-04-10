@@ -1,18 +1,20 @@
 @CHARSET "UTF-8";
-
 body {
 	text-align: center;
-	font-size: 12px
+	font-size: 12px;
 }
+
 
 table {
 	font-size: 12px;
+	align:center;
+	valign:center;
 }
 
 .odd {
 	background-color: #c3f3c3;
 }
 
-.event {
+.even {
 	background-color: #f3c3f3;
 }
