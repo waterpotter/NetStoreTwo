@@ -9,7 +9,7 @@
 <body>
 	处理成功!2秒后返回!
 	<script type="text/javascript">
-		<%response.setHeader("Refresh", "2;URL="+request.getContextPath()+"/manage/index.jsp"); %>
+		<%response.setHeader("Refresh", "2;URL="+request.getContextPath()+"/manage/header.jsp"); %>
 	</script>
 
 </body>

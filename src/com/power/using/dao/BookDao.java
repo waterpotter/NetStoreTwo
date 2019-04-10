@@ -1,5 +1,7 @@
 package com.power.using.dao;
 
+import java.util.List;
+
 import com.power.using.domain.Book;
 
 public interface BookDao {
@@ -12,5 +14,9 @@ public interface BookDao {
 	 * @return
 	 */
 	Book findBookByid(String bookId);
+
+	int getTotalRecordsNum();
+
+	List findPageRecords(int startIndex, int pageSize);
 
 }

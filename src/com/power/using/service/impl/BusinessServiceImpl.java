@@ -56,7 +56,15 @@ public class BusinessServiceImpl implements BusinessService{
 
 	@Override
 	public Page findBookPageRecords(String num) {
-		return null;
+		int pageNum=1;
+		if(num!=null&&!"".contentEquals(num)){
+			pageNum=Integer.parseInt(num);
+		}
+		int totalRecordsNum=bookDao.getTotalRecordsNum();
+		Page page = new Page(pageNum,totalRecordsNum);
+		List records=bookDao.findPageRecords(page.getStartIndex(),page.getPageSize());
+		page.setRecords(records);
+		return page;
 	}
 
 }

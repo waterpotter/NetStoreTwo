@@ -10,7 +10,7 @@
 		<th>操作</th>
 	</tr>
 	<c:forEach items="${cs}" var="c" varStatus="vs">
-		<tr class="${vs.index%2==0 ? 'odd' : 'even' }">
+		<tr class="${vs.index%2==0?'odd':'even' }">
 			<td>${vs.count }</td>
 			<td>${c.name }</td>
 			<td>${c.description }</td>
