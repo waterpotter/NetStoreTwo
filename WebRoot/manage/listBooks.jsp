@@ -31,14 +31,16 @@
 		</tr>
 	
 	</c:forEach>
+	
+	
+	
+</tr>
 </table>
 <br/>
-<tr >
-	<td colspan="8" >
+
+<td colspan="8" >
 		<%@include file="/common/page.jsp" %>
 	</td>
-</tr>
-
 
 
 

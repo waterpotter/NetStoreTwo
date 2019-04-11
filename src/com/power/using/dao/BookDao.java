@@ -19,4 +19,8 @@ public interface BookDao {
 
 	List findPageRecords(int startIndex, int pageSize);
 
+	int getTotalRecordsNum(String categoryId);
+
+	List findPageRecords(int startIndex, int pageSize, String categoryId);
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.power.using.commons.Page;
 import com.power.using.domain.Book;
 import com.power.using.domain.Category;
+import com.power.using.domain.Customer;
 
 public interface BusinessService {
 	
@@ -49,6 +50,21 @@ public interface BusinessService {
 	 * @return
 	 */
 	Page findBookPageRecords(String num);
+
+	Page findBookPageRecords(String num, String categoryId);
+	
+	void addCustomer(Customer c);
+	
+	Customer findCustomer(String customerId);
+	
+	Customer customerLogin(String username,String password);
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
