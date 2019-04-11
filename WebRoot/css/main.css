@@ -18,3 +18,7 @@ table {
 .even{
 	background-color: #f3c3f3;
 }
+
+td{
+	align:center;
+}
