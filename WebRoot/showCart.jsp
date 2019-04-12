@@ -31,9 +31,10 @@
 				
 				<tr>
 					<td colspan="5" align="right">
-					<a href="javascript:delAllItems()">清空购物车</a>
+						<a href="javascript:delAllItems()">清空购物车</a>
 						总数量:${sessionScope.cart.totalQuantity}&nbsp;&nbsp;
 						应付金额:${sessionScope.cart.totalMoney}&nbsp;&nbsp;
+						<a href="${pageContext.request.contextPath }/client/ClientServlet?op=genOrder">去结算</a>
 					</td>
 				</tr>
 

@@ -7,13 +7,17 @@ import javax.enterprise.inject.New;
 import com.power.using.commons.Page;
 import com.power.using.dao.BookDao;
 import com.power.using.dao.CategoryDao;
-import com.power.using.dao.CustomerDap;
+import com.power.using.dao.CustomerDao;
+import com.power.using.dao.OrderDao;
 import com.power.using.dao.impl.BookDaoImpl;
 import com.power.using.dao.impl.CategoryDaoImpl;
 import com.power.using.dao.impl.CustomerDaoImpl;
+import com.power.using.dao.impl.OrderDaoImpl;
 import com.power.using.domain.Book;
 import com.power.using.domain.Category;
 import com.power.using.domain.Customer;
+import com.power.using.domain.Order;
+import com.power.using.domain.OrderItem;
 import com.power.using.service.BusinessService;
 import com.power.using.utils.IdGenertor;
 
@@ -23,7 +27,10 @@ public class BusinessServiceImpl implements BusinessService{
 	
 	private BookDao bookDao=new BookDaoImpl();
 	
-	private CustomerDap customerDao=new CustomerDaoImpl();
+	private CustomerDao customerDao=new CustomerDaoImpl();
+	
+	private OrderDao orderDao=new OrderDaoImpl();
+	
 	
 	@Override
 	public void addCategory(Category c) {
@@ -100,6 +107,36 @@ public class BusinessServiceImpl implements BusinessService{
 	@Override
 	public Customer customerLogin(String username, String password) {
 		return customerDao.find(username,password);
+	}
+
+	@Override
+	public void genOrder(Order o) {
+		
+		if(o.getCustomer()==null){
+			throw new IllegalArgumentException("订单所属客户信息不存在");
+		}
+		
+		if(o.getItems()==null||o.getItems().size()==0){
+			throw new IllegalArgumentException("订单信息不存在");
+		}
+		
+		orderDao.save(o);
+	
+	}
+
+	@Override
+	public Order findOrderByNum(String orderNum) {
+		return orderDao.findByNum(orderNum);
+	}
+
+	@Override
+	public List<Order> findCustomerOrders(Customer c) {
+		return orderDao.findByCustomerId(c.getId());
+	}
+
+	@Override
+	public void changeOrderStatus(Order order) {
+		orderDao.updateStatus(order);
 	}
 
 }

@@ -7,6 +7,8 @@ import com.power.using.commons.Page;
 import com.power.using.domain.Book;
 import com.power.using.domain.Category;
 import com.power.using.domain.Customer;
+import com.power.using.domain.Order;
+import com.power.using.domain.OrderItem;
 
 public interface BusinessService {
 	
@@ -59,11 +61,13 @@ public interface BusinessService {
 	
 	Customer customerLogin(String username,String password);
 	
+	void genOrder(Order o);
 	
+	Order findOrderByNum(String orderNum);
 	
-	
-	
-	
+	public List<Order> findCustomerOrders(Customer c);
+
+	void changeOrderStatus(Order order);
 	
 	
 	

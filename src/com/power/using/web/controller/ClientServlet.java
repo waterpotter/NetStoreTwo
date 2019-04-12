@@ -1,7 +1,9 @@
 package com.power.using.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,8 +15,13 @@ import com.power.using.commons.Page;
 import com.power.using.constant.Constants;
 import com.power.using.domain.Book;
 import com.power.using.domain.Category;
+import com.power.using.domain.Customer;
+import com.power.using.domain.Order;
+import com.power.using.domain.OrderItem;
 import com.power.using.service.BusinessService;
 import com.power.using.service.impl.BusinessServiceImpl;
+import com.power.using.utils.IdGenertor;
+import com.power.using.utils.WebUtil;
 import com.power.using.web.beans.Cart;
 import com.power.using.web.beans.CartItem;
 
@@ -38,7 +45,99 @@ public class ClientServlet extends HttpServlet {
 			delOneItem(request,response);
 		}else if("delAllItem".equals(op)){
 			delAllItem(request,response);
+		}else if("registCustomer".equals(op)){
+			registCustomer(request,response);
+		}else if("loginCustomer".equals(op)){
+			loginCustomer(request,response);
+		}else if("logoutCustomer".equals(op)){
+			logoutCustomer(request,response);
+		}else if("genOrder".equals(op)){
+			genOrder(request,response);
+			
+		}else if("showCustomerOrders".equals(op)){
+			showCustomerOrders(request,response);
 		}
+	}
+
+	private void showCustomerOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	
+		HttpSession session = request.getSession();
+		Customer c=(Customer) session.getAttribute(Constants.CUSTOMER_LOGIN_FLAG);
+		if(c==null){
+			response.sendRedirect(request.getContextPath()+"/login.jsp");
+			return;
+		}
+		
+		List<Order> os = s.findCustomerOrders(c);
+		request.setAttribute("os", os);
+		request.getRequestDispatcher("/showCustomerOrders.jsp").forward(request, response);
+		
+	
+	
+	}
+
+	private void genOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		HttpSession session = request.getSession();
+		Customer c=(Customer) session.getAttribute(Constants.CUSTOMER_LOGIN_FLAG);
+		
+		if(c==null){
+			response.sendRedirect(request.getContextPath()+"/login.jsp");
+			return;
+		}
+		
+		Cart cart=(Cart) session.getAttribute(Constants.HTTPSESSION_CART);
+		if(cart==null){
+			response.getWriter().write("回话超时!");
+			return;
+		}
+		Order order = new Order();
+		order.setOrdernum(IdGenertor.genOrdernum());
+		order.setQuantity(cart.getTotalQuantity());
+		order.setMoney(cart.getTotalMoney());
+		order.setCustomer(c);
+		
+		List<OrderItem> oItems=new ArrayList<OrderItem>();
+		for(Map.Entry<String,CartItem> me:cart.getItems().entrySet()){
+			CartItem cItem = me.getValue();
+			OrderItem oItem = new OrderItem();
+			oItem.setId(IdGenertor.genGUID());
+			oItem.setBook(cItem.getBook());
+			oItem.setPrice(cItem.getMoney());
+			oItem.setQuantity(cItem.getQuantity());
+			oItems.add(oItem);
+		}
+		
+		order.setItems(oItems);
+		s.genOrder(order);
+		request.setAttribute("order", order);
+		request.getRequestDispatcher("/pay.jsp").forward(request, response);
+		
+	}
+
+	private void logoutCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		
+		request.getSession().removeAttribute(Constants.CUSTOMER_LOGIN_FLAG);
+		response.sendRedirect(request.getContextPath());
+	
+	
+	}
+
+	private void loginCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		Customer c = s.customerLogin(username, password);
+		
+		request.getSession().setAttribute(Constants.CUSTOMER_LOGIN_FLAG, c);
+		response.sendRedirect(request.getContextPath());
+	
+	}
+
+	private void registCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		Customer c = WebUtil.fillBean(request, Customer.class);
+		s.addCustomer(c);
+		response.getWriter().write("注册成功!2秒后返回");
+		response.setHeader("Refresh", "2;URL="+request.getContextPath());
 	}
 
 	private void delAllItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

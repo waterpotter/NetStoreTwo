@@ -8,6 +8,7 @@ public class Customer implements Serializable{
 	private String username;
 	private String password;
 	private String nickname;
+	private String phonenum;
 	private String address;
 	private String email;
 	public String getId() {
@@ -33,6 +34,13 @@ public class Customer implements Serializable{
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	
+	public String getPhonenum() {
+		return phonenum;
+	}
+	public void setPhonenum(String phonenum) {
+		this.phonenum = phonenum;
 	}
 	public String getAddress() {
 		return address;

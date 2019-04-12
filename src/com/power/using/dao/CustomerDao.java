@@ -2,7 +2,7 @@ package com.power.using.dao;
 
 import com.power.using.domain.Customer;
 
-public interface CustomerDap {
+public interface CustomerDao {
 
 	void save(Customer c);
 
